@@ -70,11 +70,11 @@ SEARCH(key)
         ELSE
             x <- x.right
         END
-    DONE
+    END
     RETURN nil
 
 CONTAINS(key)
-    RETURN search(key) != nil
+    RETURN SEARCH(key) != nil
 ```
 
 ##### rank, select
@@ -91,7 +91,7 @@ RANK(key)
         ELSE
             x <- x.left
         END
-    DONE
+    END
     RETURN -(r + 1)
 
 SELECT(r)
@@ -108,7 +108,7 @@ SELECT(r)
         ELSE
             x <- x.left
         END
-    DONE
+    END
 ```
 
 ##### predecessor, successor
@@ -121,7 +121,7 @@ PREDECESSOR(key)
         ELSE
             x, pred <- x.right, x
         END
-    DONE
+    END
     RETURN pred
 
 SUCCESSOR(key)
@@ -132,7 +132,7 @@ SUCCESSOR(key)
         ELSE
             x, succ <- x.left, x
         END
-    DONE
+    END
     RETURN succ
 ```
 
@@ -196,12 +196,12 @@ DELETE_RECURSIVE(key, x)
 FINDMIN(x)
     FOR x.left.size != 0 DO
         x <- x.left
-    DONE
+    END
     RETURN x
 
 FINDMAX(x)
     FOR x.right.size != 0 DO
         x <- x.right
-    DONE
+    END
     RETURN x
 ```
