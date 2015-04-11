@@ -8,7 +8,7 @@ import (
 	"github.com/spinlock/go-libs/assert"
 )
 
-func checkBalance(n *sbnode) {
+func checkBalance(n *node) {
 	if n.size == 0 {
 		assert.Must(n.left.size == 0)
 		assert.Must(n.right.size == 0)

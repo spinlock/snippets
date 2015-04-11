@@ -1,29 +1,29 @@
 package sbtree
 
-type sbnode struct {
+type node struct {
 	key   int
 	value interface{}
 
 	size        int
-	left, right *sbnode
+	left, right *node
 }
 
-func newNode(key int, value interface{}) *sbnode {
-	return &sbnode{
+func newNode(key int, value interface{}) *node {
+	return &node{
 		key: key, value: value,
 		size: 1,
 		left: nilNode, right: nilNode,
 	}
 }
 
-var nilNode = &sbnode{}
+var nilNode = &node{}
 
 func init() {
 	nilNode.left, nilNode.right = nilNode, nilNode
 }
 
 type SBTree struct {
-	root *sbnode
+	root *node
 }
 
 func New() *SBTree {
@@ -41,7 +41,7 @@ func (t *SBTree) Size() int {
 	return t.root.size
 }
 
-func (t *SBTree) lrotate(p **sbnode) {
+func (t *SBTree) lrotate(p **node) {
 	x := *p
 	y := x.right
 	x.right = y.left
@@ -51,7 +51,7 @@ func (t *SBTree) lrotate(p **sbnode) {
 	*p = y
 }
 
-func (t *SBTree) rrotate(p **sbnode) {
+func (t *SBTree) rrotate(p **node) {
 	x := *p
 	y := x.left
 	x.left = y.right
@@ -61,7 +61,7 @@ func (t *SBTree) rrotate(p **sbnode) {
 	*p = y
 }
 
-func (t *SBTree) lbalance(p **sbnode) {
+func (t *SBTree) lbalance(p **node) {
 	x := *p
 	if x.right.size < x.left.left.size {
 		t.rrotate(&x)
@@ -76,7 +76,7 @@ func (t *SBTree) lbalance(p **sbnode) {
 	t.lbalance(&x.left)
 }
 
-func (t *SBTree) rbalance(p **sbnode) {
+func (t *SBTree) rbalance(p **node) {
 	x := *p
 	if x.left.size < x.right.right.size {
 		t.lrotate(&x)
@@ -91,7 +91,7 @@ func (t *SBTree) rbalance(p **sbnode) {
 	t.rbalance(&x.right)
 }
 
-func (t *SBTree) maintain(p **sbnode) {
+func (t *SBTree) maintain(p **node) {
 	x := *p
 	t.lbalance(&x)
 	t.rbalance(&x)
@@ -112,7 +112,7 @@ func (t *SBTree) Contains(key int) bool {
 	return t.search(key) != nil
 }
 
-func (t *SBTree) search(key int) *sbnode {
+func (t *SBTree) search(key int) *node {
 	x := t.root
 	for x.size != 0 {
 		if x.key == key {
@@ -162,7 +162,7 @@ func (t *SBTree) Select(rank int) (int, interface{}, bool) {
 
 func (t *SBTree) Predecessor(key int) (int, interface{}, bool) {
 	t.lazyInit()
-	var p *sbnode
+	var p *node
 	x := t.root
 	for x.size != 0 {
 		if x.key >= key {
@@ -179,7 +179,7 @@ func (t *SBTree) Predecessor(key int) (int, interface{}, bool) {
 
 func (t *SBTree) Successor(key int) (int, interface{}, bool) {
 	t.lazyInit()
-	var s *sbnode
+	var s *node
 	x := t.root
 	for x.size != 0 {
 		if x.key <= key {
@@ -199,7 +199,7 @@ func (t *SBTree) Insert(key int, value interface{}) (interface{}, bool) {
 	return t.insert(key, value, &t.root)
 }
 
-func (t *SBTree) insert(key int, value interface{}, p **sbnode) (oldValue interface{}, addNode bool) {
+func (t *SBTree) insert(key int, value interface{}, p **node) (oldValue interface{}, addNode bool) {
 	x := *p
 	if x.size == 0 {
 		*p = newNode(key, value)
@@ -225,7 +225,7 @@ func (t *SBTree) Delete(key int) (interface{}, bool) {
 	return t.delete(key, &t.root)
 }
 
-func (t *SBTree) delete(key int, p **sbnode) (oldValue interface{}, delNode bool) {
+func (t *SBTree) delete(key int, p **node) (oldValue interface{}, delNode bool) {
 	x := *p
 	if x.size == 0 {
 		return nil, false
@@ -257,14 +257,14 @@ func (t *SBTree) delete(key int, p **sbnode) (oldValue interface{}, delNode bool
 	return
 }
 
-func (t *SBTree) findMin(x *sbnode) *sbnode {
+func (t *SBTree) findMin(x *node) *node {
 	for x.left.size != 0 {
 		x = x.left
 	}
 	return x
 }
 
-func (t *SBTree) findMax(x *sbnode) *sbnode {
+func (t *SBTree) findMax(x *node) *node {
 	for x.right.size != 0 {
 		x = x.right
 	}
@@ -278,7 +278,7 @@ func (t *SBTree) Keys() []int {
 	return ks
 }
 
-func (t *SBTree) dumpKeys(ks []int, pos int, x *sbnode) {
+func (t *SBTree) dumpKeys(ks []int, pos int, x *node) {
 	if x.size == 0 {
 		return
 	}
@@ -294,7 +294,7 @@ func (t *SBTree) Values() []interface{} {
 	return vs
 }
 
-func (t *SBTree) dumpValues(vs []interface{}, pos int, x *sbnode) {
+func (t *SBTree) dumpValues(vs []interface{}, pos int, x *node) {
 	if x.size == 0 {
 		return
 	}
