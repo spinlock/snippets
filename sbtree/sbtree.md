@@ -21,7 +21,7 @@ RIGHT_ROTATE(x)
     x.size <- x.left.size + x.right.size + 1
 ```
 
-##### balance
+##### balance & maintain
 ```
 LEFT_BALANCE(x) // left-child is heavier than right-child
     IF x.right.size < x.left.left.size THEN
@@ -33,7 +33,8 @@ LEFT_BALANCE(x) // left-child is heavier than right-child
         RETURN
     END
     RIGHT_BALANCE(x.right)
-    LEFT_BALANCE(x.left) // tail recursion
+    LEFT_BALANCE(x.left)
+    MAINTAIN(x)
 
 RIGHT_BALANCE(x)
     IF x.left.size < x.right.right.size THEN
@@ -46,10 +47,8 @@ RIGHT_BALANCE(x)
     END
     LEFT_BALANCE(x.left)
     RIGHT_BALANCE(x.right)
-```
+    MAINTAIN(x)
 
-##### maintain
-```
 MAINTAIN(x)
     LEFT_BALANCE(x)
     RIGHT_BALANXE(x)
