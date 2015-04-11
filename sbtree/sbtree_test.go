@@ -8,27 +8,9 @@ import (
 	"github.com/spinlock/go-libs/assert"
 )
 
-func checkBalance(n *node) {
-	if n.size == 0 {
-		assert.Must(n.left.size == 0)
-		assert.Must(n.right.size == 0)
-	} else {
-		assert.Must(n.size == n.left.size+n.right.size+1)
-		assert.Must(n.left.size >= n.right.left.size)
-		assert.Must(n.left.size >= n.right.right.size)
-		assert.Must(n.right.size >= n.left.left.size)
-		assert.Must(n.right.size >= n.left.right.size)
-		checkBalance(n.left)
-		checkBalance(n.right)
-	}
-}
-
 func checkTree(t *SBTree, expect map[int]bool) {
 	assert.Must(len(expect) == t.Size())
-
-	if t.root != nil {
-		checkBalance(t.root)
-	}
+	assert.Must(t.CheckBalance())
 
 	keys := t.Keys()
 	assert.Must(len(expect) == t.Size())
