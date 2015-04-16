@@ -1,6 +1,7 @@
 package strings_test
 
 import (
+	"math"
 	"testing"
 
 	"github.com/spinlock/go-libs/assert"
@@ -50,46 +51,29 @@ func TestKmpStr(t *testing.T) {
 
 type atoiTest struct {
 	in  string
-	out int
-	ok  bool
+	out int32
 }
 
-var atoiTests = []atoiTest{
-	{"", 0, false},
-	{"0", 0, true},
-	{"1", 1, true},
-	{"12345", 12345, true},
-	{"012345", 12345, true},
-	{"12345x", 0, false},
-	{"98765432100", 98765432100, true},
-	{"18446744073709551616", 0, false},
-	{"18446744073709551620", 0, false},
-	{"", 0, false},
-	{"0", 0, true},
-	{"-0", 0, true},
-	{"1", 1, true},
-	{"-1", -1, true},
-	{"12345", 12345, true},
-	{"-12345", -12345, true},
-	{"012345", 12345, true},
-	{"-012345", -12345, true},
-	{"98765432100", 98765432100, true},
-	{"-98765432100", -98765432100, true},
-	{"9223372036854775807", 1<<63 - 1, true},
-	{"-9223372036854775807", -(1<<63 - 1), true},
-	{"9223372036854775808", 0, false},
-	{"-9223372036854775808", -1 << 63, true},
-	{"9223372036854775809", 0, false},
-	{"-9223372036854775809", 0, false},
+var atoi32Tests = []atoiTest{
+	{"", 0},
+	{"0", 0},
+	{"1", 1},
+	{"12345", 12345},
+	{"012345", 12345},
+	{"12345x", 12345},
+	{"18446744073709551616", math.MaxInt32},
+	{"-0", 0},
+	{"-1", -1},
+	{"12345", 12345},
+	{"-12345", -12345},
+	{"012345", 12345},
+	{"-012345", -12345},
+	{"-9223372036854775807", math.MinInt32},
 }
 
-func TestAtoi(t *testing.T) {
-	for _, t := range atoiTests {
-		out, ok := Atoi(t.in)
-		if t.ok {
-			assert.Must(ok && t.out == out)
-		} else {
-			assert.Must(!ok)
-		}
+func TestAtoi32(t *testing.T) {
+	for _, t := range atoi32Tests {
+		out := Atoi32(t.in)
+		assert.Must(t.out == out)
 	}
 }

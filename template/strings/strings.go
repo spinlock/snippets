@@ -1,5 +1,7 @@
 package strings
 
+import "math"
+
 func StrStr(s, sep string) int {
 	i, j := 0, 0
 	for {
@@ -7,7 +9,7 @@ func StrStr(s, sep string) int {
 			return i
 		} else if i+j == len(s) {
 			return -1
-		} else if sep[j] == s[i+j] {
+		} else if s[i+j] == sep[j] {
 			j++
 		} else {
 			i++
@@ -33,7 +35,7 @@ func KmpStr(s, sep string) int {
 			return i - j
 		} else if i == len(s) {
 			return -1
-		} else if sep[j] == s[i] {
+		} else if s[i] == sep[j] {
 			i++
 			j++
 		} else if j == 0 {
@@ -44,7 +46,7 @@ func KmpStr(s, sep string) int {
 	}
 }
 
-func Atoi(s string) (out int, ok bool) {
+func Atoi32(s string) (out int32) {
 	var idx = 0
 	for idx < len(s) && s[idx] == ' ' {
 		idx++
@@ -53,37 +55,32 @@ func Atoi(s string) (out int, ok bool) {
 		return
 	}
 	var minus = false
-	if s[idx] == '-' {
-		idx++
+	switch s[idx] {
+	case '-':
 		minus = true
-	}
-	for idx < len(s) && s[idx] == ' ' {
+		fallthrough
+	case '+':
 		idx++
 	}
-	if idx == len(s) {
-		return
-	}
-	var v int
 	for idx < len(s) {
 		switch b := s[idx]; {
-		default:
-			return
 		case b >= '0' && b <= '9':
-			var n int
+			var old int32 = out
 			if minus {
-				n = v*10 - int(b-'0')
-				if n > v {
-					return
+				out = out*10 - int32(b-'0')
+				if out/10 != old {
+					return math.MinInt32
 				}
 			} else {
-				n = v*10 + int(b-'0')
-				if n < v {
-					return
+				out = out*10 + int32(b-'0')
+				if out/10 != old {
+					return math.MaxInt32
 				}
 			}
-			v = n
+		default:
+			return out
 		}
 		idx++
 	}
-	return v, true
+	return out
 }
