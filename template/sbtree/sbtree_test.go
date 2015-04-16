@@ -1,4 +1,4 @@
-package sbtree
+package sbtree_test
 
 import (
 	"math/rand"
@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/spinlock/go-libs/assert"
+	. "github.com/spinlock/snippets/template/sbtree"
 )
 
 func checkTree(t *SBTree, expect map[int]bool) {
