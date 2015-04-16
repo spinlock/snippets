@@ -47,3 +47,49 @@ func TestKmpStr(t *testing.T) {
 		assert.Must(n == t.out)
 	}
 }
+
+type atoiTest struct {
+	in  string
+	out int
+	ok  bool
+}
+
+var atoiTests = []atoiTest{
+	{"", 0, false},
+	{"0", 0, true},
+	{"1", 1, true},
+	{"12345", 12345, true},
+	{"012345", 12345, true},
+	{"12345x", 0, false},
+	{"98765432100", 98765432100, true},
+	{"18446744073709551616", 0, false},
+	{"18446744073709551620", 0, false},
+	{"", 0, false},
+	{"0", 0, true},
+	{"-0", 0, true},
+	{"1", 1, true},
+	{"-1", -1, true},
+	{"12345", 12345, true},
+	{"-12345", -12345, true},
+	{"012345", 12345, true},
+	{"-012345", -12345, true},
+	{"98765432100", 98765432100, true},
+	{"-98765432100", -98765432100, true},
+	{"9223372036854775807", 1<<63 - 1, true},
+	{"-9223372036854775807", -(1<<63 - 1), true},
+	{"9223372036854775808", 0, false},
+	{"-9223372036854775808", -1 << 63, true},
+	{"9223372036854775809", 0, false},
+	{"-9223372036854775809", 0, false},
+}
+
+func TestAtoi(t *testing.T) {
+	for _, t := range atoiTests {
+		out, ok := Atoi(t.in)
+		if t.ok {
+			assert.Must(ok && t.out == out)
+		} else {
+			assert.Must(!ok)
+		}
+	}
+}

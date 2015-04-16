@@ -43,3 +43,47 @@ func KmpStr(s, sep string) int {
 		}
 	}
 }
+
+func Atoi(s string) (out int, ok bool) {
+	var idx = 0
+	for idx < len(s) && s[idx] == ' ' {
+		idx++
+	}
+	if idx == len(s) {
+		return
+	}
+	var minus = false
+	if s[idx] == '-' {
+		idx++
+		minus = true
+	}
+	for idx < len(s) && s[idx] == ' ' {
+		idx++
+	}
+	if idx == len(s) {
+		return
+	}
+	var v int
+	for idx < len(s) {
+		switch b := s[idx]; {
+		default:
+			return
+		case b >= '0' && b <= '9':
+			var n int
+			if minus {
+				n = v*10 - int(b-'0')
+				if n > v {
+					return
+				}
+			} else {
+				n = v*10 + int(b-'0')
+				if n < v {
+					return
+				}
+			}
+			v = n
+		}
+		idx++
+	}
+	return v, true
+}
