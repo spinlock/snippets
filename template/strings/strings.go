@@ -46,34 +46,36 @@ func KmpStr(s, sep string) int {
 	}
 }
 
-func Atoi32(s string) (out int32) {
+func Atoi32(s string) int32 {
 	var idx = 0
 	for idx < len(s) && s[idx] == ' ' {
 		idx++
 	}
 	if idx == len(s) {
-		return
+		return 0
 	}
 	var minus = false
 	switch s[idx] {
 	case '-':
 		minus = true
-		fallthrough
+		idx++
 	case '+':
 		idx++
 	}
+	var out int32
 	for idx < len(s) {
 		switch b := s[idx]; {
 		case b >= '0' && b <= '9':
-			var old int32 = out
+			var old = out
 			if minus {
 				out = out*10 - int32(b-'0')
-				if out/10 != old {
-					return math.MinInt32
-				}
 			} else {
 				out = out*10 + int32(b-'0')
-				if out/10 != old {
+			}
+			if out/10 != old {
+				if minus {
+					return math.MinInt32
+				} else {
 					return math.MaxInt32
 				}
 			}
