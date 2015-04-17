@@ -66,3 +66,36 @@ func msort(array, tmp []int, beg, end int) {
 		array[i] = tmp[i]
 	}
 }
+
+func HeapSort(array []int) {
+	for i := len(array) - 1; i >= 0; i-- {
+		hdown(array, i, len(array))
+	}
+	for i := len(array) - 1; i >= 0; i-- {
+		hswap(array, 0, i)
+		hdown(array, 0, i)
+	}
+}
+
+func hswap(array []int, i, j int) {
+	array[i], array[j] = array[j], array[i]
+}
+
+func hdown(array []int, p int, size int) {
+	for p < size {
+		l := p*2 + 1
+		r := p*2 + 2
+		m := p
+		if l < size && array[l] > array[m] {
+			m = l
+		}
+		if r < size && array[r] > array[m] {
+			m = r
+		}
+		if p == m {
+			return
+		}
+		hswap(array, p, m)
+		p = m
+	}
+}

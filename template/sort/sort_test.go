@@ -21,22 +21,24 @@ func newArray(n int) []int {
 	return array
 }
 
-func checkSort(n int, fsort func([]int)) {
-	array := newArray(n)
-	fsort(array)
-	for i := 0; i < len(array); i++ {
-		assert.Must(array[i] == i)
+func checkSort(fsort func([]int)) {
+	for n := 0; n <= 10; n++ {
+		array := newArray(1 << uint(n))
+		fsort(array)
+		for i := 0; i < len(array); i++ {
+			assert.Must(array[i] == i)
+		}
 	}
 }
 
 func TestQuickSort(t *testing.T) {
-	for i := 0; i <= 10; i++ {
-		checkSort(1<<uint(i), QuickSort)
-	}
+	checkSort(QuickSort)
 }
 
 func TestMergeSort(t *testing.T) {
-	for i := 0; i <= 10; i++ {
-		checkSort(1<<uint(i), MergeSort)
-	}
+	checkSort(MergeSort)
+}
+
+func TestHeapSort(t *testing.T) {
+	checkSort(HeapSort)
 }
