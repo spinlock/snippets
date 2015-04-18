@@ -20,7 +20,7 @@ func UfsSize(array []int, x int) int {
 	return -array[px]
 }
 
-func UfsJoin(array []int, x, y int) {
+func UfsUnion(array []int, x, y int) {
 	px := UfsFind(array, x)
 	py := UfsFind(array, y)
 	if px != py {
