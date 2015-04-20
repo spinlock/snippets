@@ -127,9 +127,9 @@ func (t *SBTree) Select(rank int) (int, interface{}, bool) {
 
 func (t *SBTree) findByRank(rank int, x *node) *node {
 	if rank < 0 {
-		rank = -(rank + 1)
+		rank += x.size
 	}
-	for rank < x.size {
+	for rank < x.size && rank >= 0 {
 		if x.left.size == rank {
 			return x
 		} else if x.left.size < rank {
