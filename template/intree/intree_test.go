@@ -31,7 +31,7 @@ func maxInt(v1, v2 int) int {
 	}
 }
 
-func TestInTree(t *testing.T) {
+func TestInTree(x *testing.T) {
 	const n = 128
 	var values = make([]int, n)
 	for i := 0; i < n; i++ {
@@ -58,12 +58,12 @@ func TestInTree(t *testing.T) {
 			}
 		}
 	}
-	var it = New(values)
+	var t = New(values)
 	for i := 0; i < n; i++ {
 		for j := 0; j < n; j++ {
-			assert.Must(min[i][j] == it.Min(i, j))
-			assert.Must(max[i][j] == it.Max(i, j))
-			assert.Must(sum[i][j] == it.Sum(i, j))
+			assert.Must(min[i][j] == t.Min(i, j))
+			assert.Must(max[i][j] == t.Max(i, j))
+			assert.Must(sum[i][j] == t.Sum(i, j))
 		}
 	}
 }
