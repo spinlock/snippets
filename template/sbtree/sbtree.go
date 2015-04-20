@@ -24,28 +24,22 @@ func newNode(key int, value interface{}) *node {
 
 func (x *node) check() bool {
 	if x.size == 0 {
-		if x != nilNode {
-			return false
+		return x == nilNode && x == x.left && x == x.right
+	} else {
+		var pass = true
+		if x.left.size != 0 {
+			pass = pass && (x.left.key <= x.key)
 		}
-		return x == x.left && x == x.right
-	}
-	if x.left.size != 0 {
-		if x.left.key > x.key {
-			return false
+		if x.right.size != 0 {
+			pass = pass && (x.key <= x.right.key)
 		}
+		pass = pass && (x.size == x.left.size+x.right.size+1)
+		pass = pass && (x.left.size >= x.right.left.size)
+		pass = pass && (x.left.size >= x.right.right.size)
+		pass = pass && (x.right.size >= x.left.left.size)
+		pass = pass && (x.right.size >= x.left.right.size)
+		return pass && x.left.check() && x.right.check()
 	}
-	if x.right.size != 0 {
-		if x.key > x.right.key {
-			return false
-		}
-	}
-	var pass = true
-	pass = pass && (x.size == x.left.size+x.right.size+1)
-	pass = pass && (x.left.size >= x.right.left.size)
-	pass = pass && (x.left.size >= x.right.right.size)
-	pass = pass && (x.right.size >= x.left.left.size)
-	pass = pass && (x.right.size >= x.left.right.size)
-	return pass && x.left.check() && x.right.check()
 }
 
 type SBTree struct {
@@ -74,7 +68,7 @@ func (t *SBTree) CheckBalance() bool {
 
 func (t *SBTree) Search(key int) (interface{}, bool) {
 	t.lazyInit()
-	if x := t.find(key, t.root); x != nil {
+	if x := t.findByKey(key, t.root); x != nil {
 		return x.value, true
 	}
 	return nil, false
@@ -82,10 +76,10 @@ func (t *SBTree) Search(key int) (interface{}, bool) {
 
 func (t *SBTree) Contains(key int) bool {
 	t.lazyInit()
-	return t.find(key, t.root) != nil
+	return t.findByKey(key, t.root) != nil
 }
 
-func (t *SBTree) find(key int, x *node) *node {
+func (t *SBTree) findByKey(key int, x *node) *node {
 	for x.size != 0 {
 		if x.key == key {
 			return x
@@ -129,7 +123,7 @@ func (t *SBTree) findByRank(rank int, x *node) *node {
 	if rank < 0 {
 		rank += x.size
 	}
-	for rank < x.size && rank >= 0 {
+	for rank >= 0 && rank < x.size {
 		if x.left.size == rank {
 			return x
 		} else if x.left.size < rank {
@@ -158,7 +152,7 @@ func (t *SBTree) findPred(key int, x *node) (pred *node) {
 			x, pred = x.right, x
 		}
 	}
-	return
+	return pred
 }
 
 func (t *SBTree) Successor(key int) (int, interface{}, bool) {
@@ -177,7 +171,7 @@ func (t *SBTree) findSucc(key int, x *node) (succ *node) {
 			x, succ = x.left, x
 		}
 	}
-	return
+	return succ
 }
 
 func (t *SBTree) lrotate(p **node) {
@@ -260,7 +254,7 @@ func (t *SBTree) insert(key int, value interface{}, p **node) (oldValue interfac
 		t.maintain(&x)
 		*p = x
 	}
-	return
+	return oldValue, addNode
 }
 
 func (t *SBTree) Delete(key int) (interface{}, bool) {
@@ -297,7 +291,7 @@ func (t *SBTree) remove(key int, p **node) (oldValue interface{}, delNode bool) 
 			*p = x
 		}
 	}
-	return
+	return oldValue, delNode
 }
 
 func (t *SBTree) findMin(x *node) *node {
