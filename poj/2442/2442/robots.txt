@@ -1,0 +1,7 @@
+User-Agent:*
+Disallow:/problemstatus
+Disallow:/send
+Disallow:/status
+Disallow:/submit
+Disallow:/modifyuser
+Disallow:/userstatus*

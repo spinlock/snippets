@@ -3,6 +3,7 @@
 1611: ufs
 1703: ufs
 2418: trie
+2442: heap
 3264: intree
 3468: intree
 3517: sbtree
