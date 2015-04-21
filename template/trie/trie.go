@@ -75,6 +75,28 @@ func (t *TrieTree) Insert(s string) {
 	x.tail = true
 }
 
+func (t *TrieTree) InsertNoPrefix(s string) bool {
+	t.lazyInit()
+	x := t.root
+	for j := 0; j < len(s); j++ {
+		if x.tail {
+			return false
+		}
+		b := s[j]
+		if i := x.find(b); i >= 0 {
+			x = x.next[i]
+		} else {
+			x = x.insert(b, -(i + 1))
+		}
+	}
+	if x.tail || len(x.next) != 0 {
+		return false
+	} else {
+		x.tail = true
+		return true
+	}
+}
+
 func (t *TrieTree) Contains(s string) bool {
 	t.lazyInit()
 	x := t.root

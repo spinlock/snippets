@@ -32,3 +32,13 @@ func TestInsert(x *testing.T) {
 	assert.Must(t.Check())
 	assert.Must(t.Contains(""))
 }
+
+func TestInsertNoPrefix(x *testing.T) {
+	t := New()
+
+	t.Insert("000")
+	assert.Must(t.InsertNoPrefix("1"))
+	assert.Must(t.InsertNoPrefix("00") == false)
+	assert.Must(t.InsertNoPrefix("11") == false)
+	assert.Must(t.InsertNoPrefix("000") == false)
+}
