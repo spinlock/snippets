@@ -48,7 +48,7 @@ func (h *Heap) up(i int) {
 }
 
 func (h *Heap) Push(v int) {
-	if h.size == len(h.buff) {
+	if len(h.buff) == h.size {
 		h.buff = append(h.buff, v)
 	} else {
 		h.buff[h.size] = v
