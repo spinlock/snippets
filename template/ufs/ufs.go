@@ -1,30 +1,34 @@
 package ufs
 
-func UfsInit(array []int) {
-	for i := 0; i < len(array); i++ {
-		array[i] = -1
+type Ufs []int
+
+func New(n int) Ufs {
+	ufs := make([]int, n)
+	for i := 0; i < n; i++ {
+		ufs[i] = -1
 	}
+	return ufs
 }
 
-func UfsFind(array []int, x int) int {
-	if px := array[x]; px < 0 {
+func (ufs Ufs) Find(x int) int {
+	if px := ufs[x]; px < 0 {
 		return x
 	} else {
-		array[x] = UfsFind(array, px)
-		return array[x]
+		ufs[x] = ufs.Find(px)
+		return ufs[x]
 	}
 }
 
-func UfsSize(array []int, x int) int {
-	px := UfsFind(array, x)
-	return -array[px]
+func (ufs Ufs) Size(x int) int {
+	px := ufs.Find(x)
+	return -ufs[px]
 }
 
-func UfsUnion(array []int, x, y int) {
-	px := UfsFind(array, x)
-	py := UfsFind(array, y)
+func (ufs Ufs) Union(x, y int) {
+	px := ufs.Find(x)
+	py := ufs.Find(y)
 	if px != py {
-		array[px] += array[py]
-		array[py] = px
+		ufs[px] += ufs[py]
+		ufs[py] = px
 	}
 }
