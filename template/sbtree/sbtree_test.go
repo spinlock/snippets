@@ -9,36 +9,36 @@ import (
 	. "github.com/spinlock/snippets/template/sbtree"
 )
 
-func checkTree(t *SBTree, expect map[int]bool) {
+func checkTree(t *Tree, expect map[int]bool) {
 	assert.Must(len(expect) == t.Size())
-	assert.Must(t.CheckBalance())
+	assert.Must(t.Check())
 
-	keys := t.Keys()
+	nodes := t.Nodes(nil)
 	assert.Must(len(expect) == t.Size())
-	for i := 0; i < len(keys); i++ {
-		assert.Must(t.Rank(keys[i]) == i)
-		key, _, ok := t.Select(i)
-		assert.Must(ok && key == keys[i])
+	for i := 0; i < len(nodes); i++ {
+		assert.Must(t.Rank(nodes[i].Key()) == i)
+		x := t.Select(i)
+		assert.Must(x != nil && x.Key() == nodes[i].Key())
 	}
 
-	for i := 1; i < len(keys); i++ {
-		pk, _, ok := t.Predecessor(keys[i])
-		assert.Must(ok && pk == keys[i-1])
+	for i := 1; i < len(nodes); i++ {
+		x := t.FindPred(nodes[i].Key())
+		assert.Must(x != nil && x.Key() == nodes[i-1].Key())
 	}
-	for i := 0; i < len(keys)-1; i++ {
-		sk, _, ok := t.Successor(keys[i])
-		assert.Must(ok && sk == keys[i+1])
+	for i := 0; i < len(nodes)-1; i++ {
+		x := t.FindSucc(nodes[i].Key())
+		assert.Must(x != nil && x.Key() == nodes[i+1].Key())
 	}
 
 	for k, _ := range expect {
 		assert.Must(t.Contains(k))
 	}
 
-	for i := 1; i < len(keys); i++ {
-		assert.Must(keys[i] > keys[i-1])
+	for i := 1; i < len(nodes); i++ {
+		assert.Must(nodes[i].Key() > nodes[i-1].Key())
 	}
-	for i := 0; i < len(keys); i++ {
-		assert.Must(expect[keys[i]])
+	for i := 0; i < len(nodes); i++ {
+		assert.Must(expect[nodes[i].Key()])
 	}
 }
 
@@ -61,7 +61,7 @@ func TestInsert(x *testing.T) {
 	checkTree(t, m)
 }
 
-func TestDelete(x *testing.T) {
+func TestRemove(x *testing.T) {
 	t := New()
 	for i := 0; i < 1024; i++ {
 		_, addNode := t.Insert(i, i)
@@ -69,14 +69,14 @@ func TestDelete(x *testing.T) {
 	}
 
 	for i := 0; i < 1024; i++ {
-		oldValue, delNode := t.Delete(i)
+		oldValue, delNode := t.Remove(i)
 		assert.Must(delNode)
 		assert.Must(oldValue.(int) == i)
 	}
 	checkTree(t, map[int]bool{})
 
 	for i := 0; i < 1024; i++ {
-		oldValue, delNode := t.Delete(i)
+		oldValue, delNode := t.Remove(i)
 		assert.Must(delNode == false)
 		assert.Must(oldValue == nil)
 	}
@@ -97,7 +97,7 @@ func TestRandom(x *testing.T) {
 
 	for k, _ := range m {
 		delete(m, k)
-		oldValue, delNode := t.Delete(k)
+		oldValue, delNode := t.Remove(k)
 		assert.Must(delNode)
 		assert.Must(oldValue == nil)
 	}
