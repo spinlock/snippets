@@ -1,7 +1,14 @@
 package sort
 
 func QuickSort(array []int) {
-	qsort(array, 0, len(array)-1)
+	beg, end := 0, len(array)-1
+	qsort(array, beg, end)
+}
+
+func xswap(array []int, i, j int) {
+	if i != j {
+		array[i], array[j] = array[j], array[i]
+	}
 }
 
 func qsort(array []int, beg, end int) {
@@ -12,55 +19,48 @@ func qsort(array []int, beg, end int) {
 	for i := beg + 1; i <= end; i++ {
 		if array[i] <= array[beg] {
 			pivot++
-			qswap(array, i, pivot)
+			xswap(array, i, pivot)
 		}
 	}
-	qswap(array, beg, pivot)
+	xswap(array, beg, pivot)
 	qsort(array, beg, pivot-1)
 	qsort(array, pivot+1, end)
 }
 
-func qswap(array []int, i, j int) {
-	if i == j {
-		return
-	}
-	array[i], array[j] = array[j], array[i]
-}
-
 func MergeSort(array []int) {
 	tmp := make([]int, len(array))
-	msort(array, tmp, 0, len(array)-1)
+	beg, end := 0, len(array)-1
+	msort(array, tmp, beg, end)
 }
 
 func msort(array, tmp []int, beg, end int) {
 	if beg >= end {
 		return
 	}
-	mid := (beg + end) / 2
+	mid := beg + (end-beg)/2
 	msort(array, tmp, beg, mid)
 	msort(array, tmp, mid+1, end)
-	i, j := beg, mid+1
-	idx := beg
+	i, j, k := beg, mid+1, beg
 	for i <= mid && j <= end {
 		if array[i] <= array[j] {
-			tmp[idx] = array[i]
+			tmp[k] = array[i]
 			i++
-			idx++
+			k++
 		} else {
-			tmp[idx] = array[j]
+			tmp[k] = array[j]
 			j++
-			idx++
+			k++
 		}
 	}
 	for i <= mid {
-		tmp[idx] = array[i]
+		tmp[k] = array[i]
 		i++
-		idx++
+		k++
 	}
 	for j <= end {
-		tmp[idx] = array[j]
+		tmp[k] = array[j]
 		j++
-		idx++
+		k++
 	}
 	for i := beg; i <= end; i++ {
 		array[i] = tmp[i]
@@ -71,14 +71,10 @@ func HeapSort(array []int) {
 	for i := len(array) - 1; i >= 0; i-- {
 		hdown(array, i, len(array))
 	}
-	for i := len(array) - 1; i >= 0; i-- {
-		hswap(array, 0, i)
+	for i := len(array) - 1; i != 0; i-- {
+		xswap(array, 0, i)
 		hdown(array, 0, i)
 	}
-}
-
-func hswap(array []int, i, j int) {
-	array[i], array[j] = array[j], array[i]
 }
 
 func hdown(array []int, p int, size int) {
@@ -95,7 +91,7 @@ func hdown(array []int, p int, size int) {
 		if p == m {
 			return
 		}
-		hswap(array, p, m)
+		xswap(array, p, m)
 		p = m
 	}
 }
