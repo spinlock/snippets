@@ -1,14 +1,14 @@
 package sort
 
-func QuickSort(array []int) {
-	beg, end := 0, len(array)-1
-	qsort(array, beg, end)
-}
-
 func xswap(array []int, i, j int) {
 	if i != j {
 		array[i], array[j] = array[j], array[i]
 	}
+}
+
+func QuickSort(array []int) {
+	beg, end := 0, len(array)-1
+	qsort(array, beg, end)
 }
 
 func qsort(array []int, beg, end int) {
