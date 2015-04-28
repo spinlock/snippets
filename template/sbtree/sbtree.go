@@ -108,7 +108,7 @@ func (t *Tree) FindSucc(key int) *Node {
 
 func (t *Tree) findPredByKey(key int, x *Node) (pred *Node) {
 	for x.size != 0 {
-		if x.key >= key {
+		if key <= x.key {
 			x = x.left
 		} else {
 			x, pred = x.right, x
@@ -130,10 +130,10 @@ func (t *Tree) findSuccByKey(key int, x *Node) (succ *Node) {
 
 func (t *Tree) Rank(key int) int {
 	t.lazyInit()
-	return t.rank(key, t.root)
+	return t.rankByKey(key, t.root)
 }
 
-func (t *Tree) rank(key int, x *Node) (rank int) {
+func (t *Tree) rankByKey(key int, x *Node) (rank int) {
 	for x.size != 0 {
 		if x.key == key {
 			return rank + x.left.size
