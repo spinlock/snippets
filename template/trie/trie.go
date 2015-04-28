@@ -9,7 +9,7 @@ type node struct {
 func (x *node) find(key uint8) int {
 	beg, end := 0, len(x.keys)-1
 	for beg <= end {
-		mid := (beg + end) / 2
+		mid := beg + (end-beg)/2
 		if x.keys[mid] == key {
 			return mid
 		} else if x.keys[mid] < key {
@@ -19,15 +19,6 @@ func (x *node) find(key uint8) int {
 		}
 	}
 	return -(beg + 1)
-}
-
-func (x *node) check() bool {
-	for i := 1; i < len(x.keys); i++ {
-		if x.keys[i] <= x.keys[i-1] {
-			return false
-		}
-	}
-	return true
 }
 
 func (x *node) insert(key uint8, i int) *node {
@@ -42,26 +33,40 @@ func (x *node) insert(key uint8, i int) *node {
 	return x.next[i]
 }
 
-type TrieTree struct {
+func (x *node) check() bool {
+	for i := 1; i < len(x.keys); i++ {
+		if x.keys[i] <= x.keys[i-1] {
+			return false
+		}
+	}
+	for i := 0; i < len(x.next); i++ {
+		if !x.next[i].check() {
+			return false
+		}
+	}
+	return true
+}
+
+type Tree struct {
 	root *node
 }
 
-func New() *TrieTree {
-	return &TrieTree{}
+func New() *Tree {
+	return &Tree{}
 }
 
-func (t *TrieTree) lazyInit() {
+func (t *Tree) lazyInit() {
 	if t.root == nil {
 		t.root = &node{}
 	}
 }
 
-func (t *TrieTree) Check() bool {
+func (t *Tree) Check() bool {
 	t.lazyInit()
 	return t.root.check()
 }
 
-func (t *TrieTree) Insert(s string) {
+func (t *Tree) Insert(s string) {
 	t.lazyInit()
 	x := t.root
 	for j := 0; j < len(s); j++ {
@@ -75,21 +80,21 @@ func (t *TrieTree) Insert(s string) {
 	x.tail = true
 }
 
-func (t *TrieTree) InsertNoPrefix(s string) bool {
+func (t *Tree) InsertNoPrefix(s string) bool {
 	t.lazyInit()
 	x := t.root
 	for j := 0; j < len(s); j++ {
+		b := s[j]
 		if x.tail {
 			return false
 		}
-		b := s[j]
 		if i := x.find(b); i >= 0 {
 			x = x.next[i]
 		} else {
 			x = x.insert(b, -(i + 1))
 		}
 	}
-	if x.tail || len(x.next) != 0 {
+	if x.tail || len(x.keys) != 0 {
 		return false
 	} else {
 		x.tail = true
@@ -97,7 +102,7 @@ func (t *TrieTree) InsertNoPrefix(s string) bool {
 	}
 }
 
-func (t *TrieTree) Contains(s string) bool {
+func (t *Tree) Contains(s string) bool {
 	t.lazyInit()
 	x := t.root
 	for j := 0; j < len(s); j++ {
