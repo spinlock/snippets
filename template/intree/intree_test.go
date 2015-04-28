@@ -31,7 +31,7 @@ func maxInt(v1, v2 int) int {
 	}
 }
 
-func TestInTree(x *testing.T) {
+func TestTree(x *testing.T) {
 	const n = 128
 	var values = make([]int, n)
 	for i := 0; i < n; i++ {
