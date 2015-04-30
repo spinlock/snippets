@@ -23,40 +23,36 @@ type node struct {
 	min, max int
 }
 
-type Tree struct {
-	nodes []node
-}
+type Tree []node
 
-func New(values []int) *Tree {
-	t := &Tree{}
-	t.nodes = make([]node, len(values)*4+1)
+func New(values []int) Tree {
+	var t Tree = make([]node, len(values)*4+1)
 	if len(values) != 0 {
 		t.init(values, 0, 0, len(values)-1)
 	}
 	return t
 }
 
-func (t *Tree) init(values []int, p int, beg, end int) {
-	x := &t.nodes[p]
-	x.beg = beg
-	x.end = end
+func (t Tree) init(values []int, x int, beg, end int) {
+	t[x].beg = beg
+	t[x].end = end
 	if beg == end {
-		x.min = values[beg]
-		x.max = values[beg]
+		t[x].min = values[beg]
+		t[x].max = values[beg]
 	} else {
 		mid := beg + (end-beg)/2
-		l := p*2 + 1
-		r := p*2 + 2
+		l := x*2 + 1
+		r := x*2 + 2
 		t.init(values, l, beg, mid)
 		t.init(values, r, mid+1, end)
-		x.min = minInt(t.nodes[l].min, t.nodes[r].min)
-		x.max = maxInt(t.nodes[l].max, t.nodes[r].max)
+		t[x].min = minInt(t[l].min, t[r].min)
+		t[x].max = maxInt(t[l].max, t[r].max)
 	}
 }
 
-func (t *Tree) Delta(beg, end int) int {
-	beg = maxInt(beg, t.nodes[0].beg)
-	end = minInt(end, t.nodes[0].end)
+func (t Tree) Delta(beg, end int) int {
+	beg = maxInt(beg, t[0].beg)
+	end = minInt(end, t[0].end)
 	if beg > end {
 		return 0
 	}
@@ -64,14 +60,13 @@ func (t *Tree) Delta(beg, end int) int {
 	return max - min
 }
 
-func (t *Tree) minmax(p int, beg, end int) (int, int) {
-	x := &t.nodes[p]
-	if x.beg == beg && x.end == end {
-		return x.min, x.max
+func (t Tree) minmax(x int, beg, end int) (int, int) {
+	if t[x].beg == beg && t[x].end == end {
+		return t[x].min, t[x].max
 	} else {
-		mid := x.beg + (x.end-x.beg)/2
-		l := p*2 + 1
-		r := p*2 + 2
+		mid := t[x].beg + (t[x].end-t[x].beg)/2
+		l := x*2 + 1
+		r := x*2 + 2
 		if end <= mid {
 			return t.minmax(l, beg, end)
 		} else if beg > mid {

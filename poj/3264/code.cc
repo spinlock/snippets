@@ -7,10 +7,6 @@ typedef struct {
     int min, max;
 } node_t;
 
-typedef struct {
-    node_t *nodes;
-} tree_t;
-
 int
 min_int(int v1, int v2) {
     if (v1 < v2) {
@@ -30,50 +26,49 @@ max_int(int v1, int v2) {
 }
 
 void
-tree_init_walk(tree_t *t, int p, int *values, int beg, int end) {
-    node_t *x = &t->nodes[p];
-    x->beg = beg;
-    x->end = end;
+tree_init_walk(node_t *t, int x, int *values, int beg, int end) {
+    t[x].beg = beg;
+    t[x].end = end;
     if (beg == end) {
-        x->min = values[beg];
-        x->max = values[end];
+        t[x].min = values[beg];
+        t[x].max = values[end];
     } else {
         int mid = beg + (end - beg) / 2;
-        int l = p * 2 + 1;
-        int r = p * 2 + 2;
+        int l = x * 2 + 1;
+        int r = x * 2 + 2;
         tree_init_walk(t, l, values, beg, mid);
         tree_init_walk(t, r, values, mid + 1, end);
-        x->min = min_int(t->nodes[l].min, t->nodes[r].min);
-        x->max = max_int(t->nodes[l].max, t->nodes[r].max);
+        t[x].min = min_int(t[l].min, t[r].min);
+        t[x].max = max_int(t[l].max, t[r].max);
     }
 }
 
-void
-tree_init(tree_t *t, int *values, int n) {
+node_t *
+tree_init(int *values, int n) {
     int max = 4 * n + 1;
-    t->nodes = (node_t *)malloc(sizeof(node_t) * max);
-    memset(t->nodes, 0, sizeof(node_t) * max);
+    node_t *t = (node_t *)malloc(sizeof(node_t) * max);
+    memset(t, 0, sizeof(node_t) * max);
     if (n != 0) {
         tree_init_walk(t, 0, values, 0, n - 1);
     }
+    return t;
 }
 
 void
-tree_free(tree_t *t) {
-    free(t->nodes);
+tree_free(node_t *t) {
+    free(t);
 }
 
 void
-tree_minmax_walk(tree_t *t, int p, int beg, int end, int *pmin, int *pmax) {
-    node_t *x = &t->nodes[p];
+tree_minmax_walk(node_t *t, int x, int beg, int end, int *pmin, int *pmax) {
     int min, max;
-    if (x->beg == beg && x->end == end) {
-        min = x->min;
-        max = x->max;
+    if (t[x].beg == beg && t[x].end == end) {
+        min = t[x].min;
+        max = t[x].max;
     } else {
-        int mid = x->beg + (x->end - x->beg) / 2;
-        int l = p * 2 + 1;
-        int r = p * 2 + 2;
+        int mid = t[x].beg + (t[x].end - t[x].beg) / 2;
+        int l = x * 2 + 1;
+        int r = x * 2 + 2;
         if (end <= mid) {
             tree_minmax_walk(t, l, beg, end, &min, &max);
         } else if (beg > mid) {
@@ -92,9 +87,9 @@ tree_minmax_walk(tree_t *t, int p, int beg, int end, int *pmin, int *pmax) {
 }
 
 int
-tree_delta(tree_t *t, int beg, int end) {
-    beg = max_int(beg, t->nodes[0].beg);
-    end = min_int(end, t->nodes[0].end);
+tree_delta(node_t *t, int beg, int end) {
+    beg = max_int(beg, t[0].beg);
+    end = min_int(end, t[0].end);
     if (beg > end) {
         return 0;
     }
@@ -113,8 +108,7 @@ main(void) {
         scanf("%d", &values[i]);
     }
 
-    tree_t __t, *t = &__t;
-    tree_init(t, values, n);
+    node_t *t = tree_init(values, n);
     for (int i = 0; i < m; i ++) {
         int beg, end;
         scanf("%d %d", &beg, &end);
