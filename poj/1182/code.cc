@@ -3,74 +3,73 @@
 #include <string.h>
 
 typedef struct {
-    int *array, *mod;
+    int *size;
+    int *dist;
 } ufs_t;
 
-void ufs_init(ufs_t *g, int n) {
-    g->array = (int *)malloc(sizeof(int) * n);
+void
+ufs_init(ufs_t *ufs, int n) {
+    ufs->size = (int *)malloc(sizeof(int) * n);
+    ufs->dist = (int *)malloc(sizeof(int) * n);
     for (int i = 0; i < n; i ++) {
-        g->array[i] = -1;
-    }
-    g->mod = (int *)malloc(sizeof(int) * n);
-    for (int i = 0; i < n; i ++) {
-        g->mod[i] = 0;
+        ufs->size[i] = -1;
+        ufs->dist[i] = 0;
     }
 }
 
-void ufs_free(ufs_t *g) {
-    free(g->array);
-    free(g->mod);
+void
+ufs_free(ufs_t *ufs) {
+    free(ufs->size);
+    free(ufs->dist);
 }
 
-int ufs_find(ufs_t *g, int x) {
-    int px = g->array[x];
+int
+ufs_find(ufs_t *ufs, int x) {
+    int px = ufs->size[x];
     if (px < 0) {
         return x;
+    } else {
+        int npx = ufs_find(ufs, px);
+        if (npx != ufs->size[x]) {
+            ufs->size[x] = npx;
+            ufs->dist[x] = (ufs->dist[x] + ufs->dist[px]) % 3;
+        }
+        return npx;
     }
-    g->array[x] = ufs_find(g, px);
-    g->mod[x] = (g->mod[x] + g->mod[px]) % 3;
-    return g->array[x];
 }
 
-bool ufs_union(ufs_t *g, int x, int y, int eat) {
-    int px = ufs_find(g, x);
-    int py = ufs_find(g, y);
+bool
+ufs_union(ufs_t *ufs, int x, int y, int eat) {
+    int px = ufs_find(ufs, x);
+    int py = ufs_find(ufs, y);
     if (px == py) {
-        return (g->mod[x] + eat) % 3 == g->mod[y];
+        return ufs->dist[y] == (ufs->dist[x] + eat) % 3;
     } else {
-        g->array[px] += g->array[py];
-        g->array[py] = px;
-        g->mod[py] = (g->mod[x] + 3 + eat - g->mod[y]) % 3;
+        ufs->size[px] += ufs->size[py];
+        ufs->size[py] = px;
+        ufs->dist[py] = (ufs->dist[x] + 3 - ufs->dist[y] + eat) % 3;
         return true;
     }
 }
 
-bool check(int x, int beg, int end) {
-    return x >= beg && x <= end;
-}
-
-int main(void) {
-    int n, m;
-    scanf("%d %d", &n, &m);
-    ufs_t __g, *g = &__g;
-    ufs_init(g, n + 1);
-    int failed = 0;
-    for (int i = 0; i < m; i ++) {
-        int d, x, y;
-        scanf("%d %d %d", &d, &x, &y);
-        if (!check(x, 1, n) || !check(y, 1, n)) {
-            failed ++;
-        } else if (d == 1) {
-            if (!ufs_union(g, x, y, 0)) {
-                failed ++;
-            }
-        } else if (d == 2) {
-            if (!ufs_union(g, x, y, 1)) {
-                failed ++;
-            }
+int
+main(void) {
+    int n, k;
+    scanf("%d %d", &n, &k);
+    ufs_t __ufs, *ufs = &__ufs;
+    ufs_init(ufs, n + 1);
+    int lie = 0;
+    for (int i = 0; i < k; i ++) {
+        int op, x, y;
+        scanf("%d %d %d", &op, &x, &y);
+        int eat = (op == 1) ? 0 : 1;
+        if (x > n || y > n) {
+            lie ++;
+        } else if (!ufs_union(ufs, x, y, eat)) {
+            lie ++;
         }
     }
-    ufs_free(g);
-    printf("%d\n", failed);
+    ufs_free(ufs);
+    printf("%d\n", lie);
     return 0;
 }

@@ -2,66 +2,64 @@ package main
 
 import "fmt"
 
-type ufs struct {
-	array []int
-	mod   []int
+type Ufs struct {
+	size []int
+	dist []int
 }
 
-func (t *ufs) init(n int) {
-	t.array = make([]int, n)
+func New(n int) *Ufs {
+	ufs := &Ufs{}
+	ufs.size = make([]int, n)
+	ufs.dist = make([]int, n)
 	for i := 0; i < n; i++ {
-		t.array[i] = -1
+		ufs.size[i] = -1
 	}
-	t.mod = make([]int, n)
+	return ufs
 }
 
-func (t *ufs) find(x int) int {
-	if px := t.array[x]; px < 0 {
+func (ufs *Ufs) Find(x int) int {
+	if px := ufs.size[x]; px < 0 {
 		return x
 	} else {
-		t.array[x] = t.find(px)
-		t.mod[x] = (t.mod[x] + t.mod[px]) % 3
-		return t.array[x]
+		npx := ufs.Find(px)
+		if npx != ufs.size[x] {
+			ufs.size[x] = npx
+			ufs.dist[x] = (ufs.dist[x] + ufs.dist[px]) % 3
+		}
+		return npx
 	}
 }
 
-func (t *ufs) union(x, y int, eat int) bool {
-	px := t.find(x)
-	py := t.find(y)
+func (ufs *Ufs) Union(x, y int, eat int) bool {
+	px := ufs.Find(x)
+	py := ufs.Find(y)
 	if px == py {
-		return (t.mod[x]+eat)%3 == t.mod[y]
+		return ufs.dist[y] == (ufs.dist[x]+eat)%3
 	} else {
-		t.array[px] += t.array[py]
-		t.array[py] = px
-		t.mod[py] = (t.mod[x] + 3 + eat - t.mod[y]) % 3
+		ufs.size[px] += ufs.size[py]
+		ufs.size[py] = px
+		ufs.dist[py] = (ufs.dist[x] - ufs.dist[y] + 3 + eat) % 3
 		return true
 	}
 }
 
-func check(x int, beg, end int) bool {
-	return x >= beg && x <= end
-}
-
 func main() {
-	var n, m int
-	fmt.Scanf("%d %d", &n, &m)
-	var t ufs
-	t.init(n + 1)
-	var failed int
-	for i := 0; i < m; i++ {
-		var d, x, y int
-		fmt.Scanf("%d %d %d", &d, &x, &y)
-		if !check(x, 1, n) || !check(y, 1, n) {
-			failed++
-		} else if d == 1 {
-			if !t.union(x, y, 0) {
-				failed++
-			}
-		} else if d == 2 {
-			if !t.union(x, y, 1) {
-				failed++
-			}
+	var n, k int
+	fmt.Scanf("%d %d", &n, &k)
+	var ufs = New(n + 1)
+	var lie = 0
+	for i := 0; i < k; i++ {
+		var op, x, y int
+		fmt.Scanf("%d %d %d", &eat, &x, &y)
+		var eat int
+		if op != 1 {
+			eat = 1
+		}
+		if x > n || y > n {
+			lie++
+		} else if !ufs.Union(x, y, eat) {
+			lie++
 		}
 	}
-	fmt.Println(failed)
+	fmt.Println(lie)
 }
