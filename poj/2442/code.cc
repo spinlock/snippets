@@ -5,9 +5,7 @@
 void
 xswap(int *array, int i, int j) {
     if (i != j) {
-        int t = array[i];
-        array[i] = array[j];
-        array[j] = t;
+        int t = array[i]; array[i] = array[j]; array[j] = t;
     }
 }
 
@@ -17,10 +15,10 @@ qsort(int *array, int beg, int end) {
         return;
     }
     int pivot = beg;
-    for (int j = beg + 1; j <= end; j ++) {
-        if (array[j] <= array[beg]) {
+    for (int i = beg + 1; i <= end; i ++) {
+        if (array[i] <= array[beg]) {
             pivot ++;
-            xswap(array, j, pivot);
+            xswap(array, i, pivot);
         }
     }
     xswap(array, beg, pivot);
@@ -29,10 +27,10 @@ qsort(int *array, int beg, int end) {
 }
 
 void
-heap_down(int *array, int p, int size) {
+hdown(int *array, int p, int size) {
     while (p < size) {
-        int l = 2 * p + 1;
-        int r = 2 * p + 2;
+        int l = p * 2 + 1;
+        int r = p * 2 + 2;
         int m = p;
         if (l < size && array[l] > array[m]) {
             m = l;
@@ -48,69 +46,59 @@ heap_down(int *array, int p, int size) {
     }
 }
 
-void
-heap_build(int *array, int size) {
-    for (int i = size / 2; i >= 0; i --) {
-        heap_down(array, i, size);
-    }
-}
-
 int
 main(void) {
-    int t;
+    int t, m, n;
     scanf("%d", &t);
-    for (int l = 0; l < t; l ++) {
-        int m, n;
+    for (; t != 0; t --) {
         scanf("%d %d", &m, &n);
-
-        int *ans = (int *)malloc(sizeof(int) * n);
-        for (int j = 0; j < n; j ++) {
-            scanf("%d", &ans[j]);
-        }
-        qsort(ans, 0, n - 1);
-
-        int *tmp = (int *)malloc(sizeof(int) * n);
-        for (int j = 0; j < n; j ++) {
-            tmp[j] = ans[j];
-        }
-        heap_build(tmp, n);
-
+        int *sum = (int *)malloc(sizeof(int) * n);
         int *pls = (int *)malloc(sizeof(int) * n);
-        for (int i = 1; i < m; i ++) {
-            for (int j = 0; j < n; j ++) {
-                scanf("%d", &pls[j]);
+        int *tmp = (int *)malloc(sizeof(int) * n);
+
+        for (int i = 0; i < n; i ++) {
+            scanf("%d", &sum[i]);
+        }
+        for (int i = n / 2; i >= 0; i --) {
+            hdown(sum, i, n);
+        }
+
+        for (int l = 1; l < m; l ++) {
+            for (int i = 0; i < n; i ++) {
+                tmp[i] = sum[i];
+            }
+            qsort(tmp, 0, n - 1);
+
+            for (int i = 0; i < n; i ++) {
+                scanf("%d", &pls[i]);
             }
             qsort(pls, 0, n - 1);
 
-            for (int j = 0; j < n; j ++) {
-                tmp[j] += pls[0];
+            for (int i = 0; i < n; i ++) {
+                sum[i] += pls[0];
             }
 
-            for (int k = 1; k < n; k ++) {
+            for (int i = 1; i < n; i ++) {
                 for (int j = 0; j < n; j ++) {
-                    int v = ans[j] + pls[k];
-                    if (v >= tmp[0]) {
+                    int x = pls[i] + tmp[j];
+                    if (x >= sum[0]) {
                         break;
                     }
-                    tmp[0] = v;
-                    heap_down(tmp, 0, n);
+                    sum[0] = x;
+                    hdown(sum, 0, n);
                 }
             }
-
-            for (int j = 0; j < n; j ++) {
-                ans[j] = tmp[j];
-            }
-            qsort(ans, 0, n - 1);
         }
 
-        for (int j = 0; j < n; j ++) {
-            printf("%d ", ans[j]);
+        qsort(sum, 0, n - 1);
+        for (int i = 0; i < n; i ++) {
+            printf("%d ", sum[i]);
         }
         printf("\n");
 
-        free(ans);
-        free(tmp);
+        free(sum);
         free(pls);
+        free(tmp);
     }
     return 0;
 }

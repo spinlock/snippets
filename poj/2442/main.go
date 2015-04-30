@@ -8,27 +8,10 @@ func xswap(array []int, i, j int) {
 	}
 }
 
-func qsort(array []int, beg, end int) {
-	if beg >= end {
-		return
-	}
-	pivot := beg
-	for j := beg + 1; j <= end; j++ {
-		if array[j] <= array[beg] {
-			pivot++
-			xswap(array, j, pivot)
-		}
-	}
-	xswap(array, beg, pivot)
-	qsort(array, beg, pivot-1)
-	qsort(array, pivot+1, end)
-}
-
-func heap_down(array []int, p int) {
-	size := len(array)
+func hdown(array []int, p int, size int) {
 	for p < size {
-		l := 2*p + 1
-		r := 2*p + 2
+		l := p*2 + 1
+		r := p*2 + 2
 		m := p
 		if l < size && array[l] > array[m] {
 			m = l
@@ -44,61 +27,70 @@ func heap_down(array []int, p int) {
 	}
 }
 
-func heap_build(array []int) {
-	for i := len(array) / 2; i >= 0; i-- {
-		heap_down(array, i)
+func qsort(array []int, beg, end int) {
+	if beg >= end {
+		return
 	}
+	pivot := beg
+	for i := beg + 1; i <= end; i++ {
+		if array[i] <= array[beg] {
+			pivot++
+			xswap(array, i, pivot)
+		}
+	}
+	xswap(array, beg, pivot)
+	qsort(array, beg, pivot-1)
+	qsort(array, pivot+1, end)
 }
 
 func main() {
 	var t int
 	fmt.Scanf("%d", &t)
-	for l := 0; l < t; l++ {
-		var m, n int
+	for ; t != 0; t-- {
+		var n, m int
 		fmt.Scanf("%d %d", &m, &n)
 
-		ans := make([]int, n)
-		for j := 0; j < n; j++ {
-			fmt.Scanf("%d", &ans[j])
-		}
-		qsort(ans, 0, n-1)
+		var sum = make([]int, n)
+		var old = make([]int, n)
+		var pls = make([]int, n)
 
-		tmp := make([]int, n)
-		for j := 0; j < n; j++ {
-			tmp[j] = ans[j]
+		for i := 0; i < n; i++ {
+			fmt.Scanf("%d", &sum[i])
 		}
-		heap_build(tmp)
+		for i := n / 2; i >= 0; i-- {
+			hdown(sum, i, n)
+		}
 
-		pls := make([]int, n)
-		for i := 1; i < m; i++ {
-			for j := 0; j < n; j++ {
-				fmt.Scanf("%d", &pls[j])
+		for l := 1; l < m; l++ {
+			for i := 0; i < n; i++ {
+				old[i] = sum[i]
+			}
+			qsort(old, 0, n-1)
+
+			for i := 0; i < n; i++ {
+				fmt.Scanf("%d", &pls[i])
 			}
 			qsort(pls, 0, n-1)
 
-			for j := 0; j < n; j++ {
-				tmp[j] += pls[0]
+			for i := 0; i < n; i++ {
+				sum[i] += pls[0]
 			}
 
-			for k := 1; k < n; k++ {
-				for j := 0; k < n; j++ {
-					v := ans[j] + pls[k]
-					if v >= tmp[0] {
+			for i := 1; i < n; i++ {
+				for j := 0; j < n; j++ {
+					x := pls[i] + old[j]
+					if x >= sum[0] {
 						break
 					}
-					tmp[0] = v
-					heap_down(tmp, 0)
+					sum[0] = x
+					hdown(sum, 0, n)
 				}
 			}
-
-			for j := 0; j < n; j++ {
-				ans[j] = tmp[j]
-			}
-			qsort(ans, 0, n-1)
 		}
 
-		for j := 0; j < n; j++ {
-			fmt.Printf("%d ", ans[j])
+		qsort(sum, 0, n-1)
+		for i := 0; i < n; i++ {
+			fmt.Printf("%d ", sum[i])
 		}
 		fmt.Println()
 	}
