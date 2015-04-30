@@ -22,7 +22,7 @@ func (ufs *Ufs) Find(x int) int {
 		return x
 	} else {
 		npx := ufs.Find(px)
-		if npx != ufs.size[x] {
+		if npx != px {
 			ufs.size[x] = npx
 			ufs.dist[x] = (ufs.dist[x] + ufs.dist[px]) % 3
 		}
@@ -50,7 +50,7 @@ func main() {
 	var lie = 0
 	for i := 0; i < k; i++ {
 		var op, x, y int
-		fmt.Scanf("%d %d %d", &eat, &x, &y)
+		fmt.Scanf("%d %d %d", &op, &x, &y)
 		var eat int
 		if op != 1 {
 			eat = 1

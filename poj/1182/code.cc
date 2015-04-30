@@ -30,7 +30,7 @@ ufs_find(ufs_t *ufs, int x) {
         return x;
     } else {
         int npx = ufs_find(ufs, px);
-        if (npx != ufs->size[x]) {
+        if (npx != px) {
             ufs->size[x] = npx;
             ufs->dist[x] = (ufs->dist[x] + ufs->dist[px]) % 3;
         }

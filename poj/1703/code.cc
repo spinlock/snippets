@@ -3,89 +3,96 @@
 #include <string.h>
 
 typedef struct {
-    int *array, *mod;
+    int *size;
+    int *dist;
 } ufs_t;
 
-void ufs_init(ufs_t *g, int n) {
-    g->array = (int *)malloc(sizeof(int) * n);
+void
+ufs_init(ufs_t *ufs, int n) {
+    ufs->size = (int *)malloc(sizeof(int) * n);
+    ufs->dist = (int *)malloc(sizeof(int) * n);
     for (int i = 0; i < n; i ++) {
-        g->array[i] = -1;
-    }
-    g->mod = (int *)malloc(sizeof(int) * n);
-    for (int i = 0; i < n; i ++) {
-        g->mod[i] = 0;
+        ufs->size[i] = -1;
+        ufs->dist[i] = 0;
     }
 }
 
-void ufs_free(ufs_t *g) {
-    free(g->array);
-    free(g->mod);
+void
+ufs_free(ufs_t *ufs) {
+    free(ufs->size);
+    free(ufs->dist);
 }
 
-int ufs_find(ufs_t *g, int x) {
-    int px = g->array[x];
+int
+ufs_find(ufs_t *ufs, int x) {
+    int px = ufs->size[x];
     if (px < 0) {
         return x;
-    }
-    g->array[x] = ufs_find(g, px);
-    g->mod[x] = (g->mod[x] + g->mod[px]) % 2;
-    return g->array[x];
-}
-
-bool ufs_union(ufs_t *g, int x, int y) {
-    int px = ufs_find(g, x);
-    int py = ufs_find(g, y);
-    if (px == py) {
-        return g->mod[x] != g->mod[y];
     } else {
-        g->array[px] += g->array[py];
-        g->array[py] = px;
-        g->mod[py] = (g->mod[x] + 3 - g->mod[y]) % 2;
-        return true;
+        int npx = ufs_find(ufs, px);
+        if (npx != px) {
+            ufs->size[x] = npx;
+            ufs->dist[x] = (ufs->dist[x] + ufs->dist[px]) % 2;
+        }
+        return npx;
     }
 }
 
-int ufs_gang(ufs_t *g, int x, int y) {
-    int px = ufs_find(g, x);
-    int py = ufs_find(g, y);
+int
+ufs_ack(ufs_t *ufs, int x, int y) {
+    int px = ufs_find(ufs, x);
+    int py = ufs_find(ufs, y);
     if (px != py) {
-        return -1;
-    } else if (g->mod[x] == g->mod[y]) {
-        return 1;
-    } else {
         return 0;
     }
-}
-
-void process() {
-    int n, m;
-    scanf("%d %d\n", &n, &m);
-    ufs_t __g, *g = &__g;
-    ufs_init(g, n + 1);
-    for (int i = 0; i < m; i ++) {
-        char o;
-        int x, y;
-        scanf("%c %d %d\n", &o, &x, &y);
-        if (o == 'D') {
-            ufs_union(g, x, y);
-        } else if (o == 'A') {
-            int m = ufs_gang(g, x, y);
-            if (m == -1) {
-                printf("Not sure yet.\n");
-            } else if (m == 0) {
-                printf("In different gangs.\n");
-            } else {
-                printf("In the same gang.\n");
-            }
-        }
+    if (ufs->dist[x] != ufs->dist[y]) {
+        return 1;
+    } else {
+        return 2;
     }
-    ufs_free(g);
 }
 
-int main(void) {
+void
+ufs_diff(ufs_t *ufs, int x, int y) {
+    int px = ufs_find(ufs, x);
+    int py = ufs_find(ufs, y);
+    if (px != py) {
+        ufs->size[px] += ufs->size[py];
+        ufs->size[py] = px;
+        ufs->dist[py] = (ufs->dist[x] + 3 - ufs->dist[y]) % 2;
+    }
+}
+
+int
+main(void) {
     int t;
     scanf("%d", &t);
-    for (int i = 0; i < t; i ++) {
-        process();
+    for (; t != 0; t --) {
+        int n, m;
+        scanf("%d %d\n", &n, &m);
+        ufs_t __ufs, *ufs = &__ufs;
+        ufs_init(ufs, n + 1);
+        for (; m != 0; m --) {
+            char op;
+            int x, y;
+            scanf("%c %d %d\n", &op, &x, &y);
+            if (op == 'A') {
+                switch (ufs_ack(ufs, x, y)) {
+                case 0:
+                    printf("Not sure yet.\n");
+                    break;
+                case 1:
+                    printf("In different gangs.\n");
+                    break;
+                case 2:
+                    printf("In the same gang.\n");
+                    break;
+                }
+            } else if (op == 'D') {
+                ufs_diff(ufs, x, y);
+            }
+        }
+        ufs_free(ufs);
     }
+    return 0;
 }
