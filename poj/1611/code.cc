@@ -2,59 +2,71 @@
 #include <stdlib.h>
 #include <string.h>
 
-int *ufs_init(int n) {
-    int *array = (int *)malloc(sizeof(int) * n);
+typedef struct {
+    int *size;
+} ufs_t;
+
+void
+ufs_init(ufs_t *ufs, int n) {
+    ufs->size = (int *)malloc(sizeof(int) * n);
     for (int i = 0; i < n; i ++) {
-        array[i] = -1;
+        ufs->size[i] = -1;
     }
-    return array;
 }
 
-void ufs_free(int *array) {
-    free(array);
+void
+ufs_free(ufs_t *ufs) {
+    free(ufs->size);
 }
 
-int ufs_find(int *array, int x) {
-    int px = array[x];
+int
+ufs_find(ufs_t *ufs, int x) {
+    int px = ufs->size[x];
     if (px < 0) {
         return x;
+    } else {
+        int npx = ufs_find(ufs, px);
+        ufs->size[x] = npx;
+        return npx;
     }
-    array[x] = ufs_find(array, px);
-    return array[x];
 }
 
-int ufs_size(int *array, int x) {
-    int px = ufs_find(array, x);
-    return -array[px];
+int
+ufs_size(ufs_t *ufs, int x) {
+    int px = ufs_find(ufs, x);
+    return -ufs->size[px];
 }
 
-void ufs_union(int *array, int x, int y) {
-    int px = ufs_find(array, x);
-    int py = ufs_find(array, y);
+void
+ufs_union(ufs_t *ufs, int x, int y) {
+    int px = ufs_find(ufs, x);
+    int py = ufs_find(ufs, y);
     if (px != py) {
-        array[px] += array[py];
-        array[py] = px;
+        ufs->size[px] += ufs->size[py];
+        ufs->size[py] = px;
     }
 }
 
-int main(void) {
+int
+main(void) {
     while (true) {
         int n, m;
         scanf("%d %d", &n, &m);
         if (n == 0) {
             return 0;
         }
-        int *array = ufs_init(n);
+        ufs_t __ufs, *ufs = &__ufs;
+        ufs_init(ufs, n);
         for (int i = 0; i < m; i ++) {
             int k, x, y;
             scanf("%d %d", &k, &x);
             for (int j = 1; j < k; j ++) {
                 scanf("%d", &y);
-                ufs_union(array, x, y);
+                ufs_union(ufs, x, y);
             }
         }
-        printf("%d\n", ufs_size(array, 0));
-        ufs_free(array);
+        printf("%d\n", ufs_size(ufs, 0));
+        ufs_free(ufs);
     }
     return 0;
 }

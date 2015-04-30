@@ -2,60 +2,59 @@ package main
 
 import "fmt"
 
-type ufs []int
-
-func (t *ufs) init(n int) {
-	array := make([]int, n)
-	for i := 0; i < n; i++ {
-		array[i] = -1
-	}
-	*t = array
+type Ufs struct {
+	size []int
 }
 
-func (t ufs) find(x int) int {
-	if px := t[x]; px < 0 {
+func New(n int) *Ufs {
+	ufs := &Ufs{}
+	ufs.size = make([]int, n)
+	for i := 0; i < n; i++ {
+		ufs.size[i] = -1
+	}
+	return ufs
+}
+
+func (ufs *Ufs) Find(x int) int {
+	if px := ufs.size[x]; px < 0 {
 		return x
 	} else {
-		t[x] = t.find(px)
-		return t[x]
+		npx := ufs.Find(px)
+		ufs.size[x] = npx
+		return npx
 	}
 }
 
-func (t ufs) size(x int) int {
-	px := t.find(x)
-	return -t[px]
+func (ufs *Ufs) Size(x int) int {
+	px := ufs.Find(x)
+	return -ufs.size[px]
 }
 
-func (t ufs) union(x, y int) {
-	px := t.find(x)
-	py := t.find(y)
+func (ufs *Ufs) Union(x, y int) {
+	px := ufs.Find(x)
+	py := ufs.Find(y)
 	if px != py {
-		t[px] += t[py]
-		t[py] = px
+		ufs.size[px] += ufs.size[py]
+		ufs.size[py] = px
 	}
-}
-
-func process(n, m int) {
-	var t ufs
-	t.init(n)
-	for i := 0; i < m; i++ {
-		var k, x, y int
-		fmt.Scanf("%d %d", &k, &x)
-		for j := 1; j < k; j++ {
-			fmt.Scanf("%d", &y)
-			t.union(x, y)
-		}
-	}
-	fmt.Println(t.size(0))
 }
 
 func main() {
 	var n, m int
 	for {
 		fmt.Scanf("%d %d", &n, &m)
-		if n == 0 && m == 0 {
+		if n == 0 {
 			return
 		}
-		process(n, m)
+		ufs := New(n)
+		for i := 0; i < m; i++ {
+			var k, x, y int
+			fmt.Scanf("%d %d", &k, &x)
+			for j := 1; j < k; j++ {
+				fmt.Scanf("%d", &y)
+				ufs.Union(x, y)
+			}
+		}
+		fmt.Println(ufs.Size(0))
 	}
 }
