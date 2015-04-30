@@ -10,14 +10,15 @@ type node struct {
 	keys []uint8
 	next []*node
 	tail bool
+
 	text string
 	hits int
 }
 
-func (x *node) index(key uint8) int {
+func (x *node) find(key uint8) int {
 	beg, end := 0, len(x.keys)-1
 	for beg <= end {
-		mid := (beg + end) / 2
+		mid := beg + (end-beg)/2
 		if x.keys[mid] == key {
 			return mid
 		} else if x.keys[mid] < key {
@@ -41,96 +42,100 @@ func (x *node) insert(key uint8, i int) *node {
 	return x.next[i]
 }
 
-func (x *node) dumpWalk(xs []*node, n int) int {
-	if x.tail {
-		xs[n] = x
-		n = n + 1
-	}
-	for i := 0; i < len(x.keys); i++ {
-		n = x.next[i].dumpWalk(xs, n)
-	}
-	return n
-}
-
-type TrieTree struct {
+type Tree struct {
 	root *node
+	hits int
 	size int
 }
 
-func New() *TrieTree {
-	return &TrieTree{}
+func New() *Tree {
+	return &Tree{}
 }
 
-func (t *TrieTree) lazyInit() {
+func (t *Tree) lazyInit() {
 	if t.root == nil {
 		t.root = &node{}
 	}
 }
 
-func (t *TrieTree) Insert(s string) {
+func (t *Tree) Insert(s string) {
 	t.lazyInit()
 	x := t.root
-	for j := 0; j < len(s); j++ {
-		b := s[j]
-		if i := x.index(b); i >= 0 {
-			x = x.next[i]
+	for i := 0; i < len(s); i++ {
+		b := s[i]
+		if idx := x.find(b); idx >= 0 {
+			x = x.next[idx]
 		} else {
-			x = x.insert(b, -(i + 1))
+			x = x.insert(b, -(idx + 1))
 		}
 	}
 	if !x.tail {
-		x.text = s
 		x.tail = true
+		x.text = s
 		t.size++
 	}
 	x.hits++
+	t.hits++
 }
 
-func (t *TrieTree) Dump() []*node {
-	xs := make([]*node, t.size)
-	t.root.dumpWalk(xs, 0)
-	return xs
+func (t *Tree) Nodes() []*node {
+	t.lazyInit()
+	ns := make([]*node, t.size)
+	t.nodesWalk(ns, 0, t.root)
+	return ns
 }
 
-func qswap(xs []*node, i, j int) {
-	if i != j {
-		xs[i], xs[j] = xs[j], xs[i]
+func (t *Tree) nodesWalk(ns []*node, p int, x *node) int {
+	if x.tail {
+		ns[p] = x
+		p++
 	}
+	for i := 0; i < len(x.next); i++ {
+		p = t.nodesWalk(ns, p, x.next[i])
+	}
+	return p
 }
 
-func qsort(xs []*node, beg, end int) {
-	if beg >= end {
-		return
-	}
-	pivot := beg
-	for j := beg + 1; j <= end; j++ {
-		if xs[j].text <= xs[beg].text {
-			pivot++
-			qswap(xs, j, pivot)
+func isSpace(b byte) bool {
+	const sep = " \t\r\n"
+	for i := 0; i < len(sep); i++ {
+		if b == sep[i] {
+			return true
 		}
 	}
-	qswap(xs, beg, pivot)
-	qsort(xs, beg, pivot-1)
-	qsort(xs, pivot+1, end)
+	return false
+}
+
+func trimSpace(s string) string {
+	var i, j = 0, len(s)
+	for i < j && isSpace(s[i]) {
+		i++
+	}
+	for i < j && isSpace(s[j-1]) {
+		j--
+	}
+	if i < j {
+		return s[i:j]
+	} else {
+		return ""
+	}
 }
 
 func main() {
 	var r = bufio.NewReader(os.Stdin)
 	var t = New()
 	for {
-		s, _ := r.ReadString('\n')
-		if s == "" {
+		s, err := r.ReadString('\n')
+		if err != nil {
 			break
 		}
-		t.Insert(s[:len(s)-1])
+		s = trimSpace(s)
+		if len(s) == 0 {
+			continue
+		}
+		t.Insert(s)
 	}
-	xs := t.Dump()
-	qsort(xs, 0, len(xs)-1)
-	total := 0
-	for i := 0; i < len(xs); i++ {
-		total += xs[i].hits
-	}
-	for i := 0; i < len(xs); i++ {
-		fmt.Printf("%s %0.4f\n", xs[i].text, float64(100*xs[i].hits)/float64(total))
+	for _, x := range t.Nodes() {
+		fmt.Printf("%s %.4f\n", x.text, float64(x.hits)*100/float64(t.hits))
 	}
 }
