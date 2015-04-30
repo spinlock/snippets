@@ -7,69 +7,96 @@ import (
 )
 
 type node struct {
-	next [2]*node
+	next []*node
 	tail bool
 }
 
-type TrieTree struct {
+func (x *node) get(key uint8) *node {
+	i := int(key - '0')
+	if x.next == nil {
+		x.next = make([]*node, 2)
+	}
+	if x.next[i] == nil {
+		x.next[i] = &node{}
+	}
+	return x.next[i]
+}
+
+type Tree struct {
 	root *node
 }
 
-func New() *TrieTree {
-	return &TrieTree{}
-}
-
-func (t *TrieTree) lazyInit() {
+func (t *Tree) lazyInit() {
 	if t.root == nil {
 		t.root = &node{}
 	}
 }
 
-func (t *TrieTree) InsertNoPrefix(s string) bool {
+func (t *Tree) InsertNoPrefix(s string) bool {
 	t.lazyInit()
 	x := t.root
-	for j := 0; j < len(s); j++ {
-		b := s[j]
-		if !(b == '0' || b == '1') {
-			break
-		}
+	for i := 0; i < len(s); i++ {
+		b := s[i]
 		if x.tail {
 			return false
+		} else {
+			x = x.get(b)
 		}
-		i := b - '0'
-		if x.next[i] == nil {
-			x.next[i] = &node{}
-		}
-		x = x.next[i]
 	}
-	if x.tail {
+	if x.tail || len(x.next) != 0 {
 		return false
+	} else {
+		x.tail = true
+		return true
 	}
-	for i := 0; i < len(x.next); i++ {
-		if x.next[i] != nil {
-			return false
+}
+
+func isSpace(b byte) bool {
+	const sep = " \t\r\n"
+	for i := 0; i < len(sep); i++ {
+		if b == sep[i] {
+			return true
 		}
 	}
-	x.tail = true
-	return true
+	return false
+}
+
+func trimSpace(s string) string {
+	var i, j = 0, len(s)
+	for i < j && isSpace(s[i]) {
+		i++
+	}
+	for j > i && isSpace(s[j-1]) {
+		j--
+	}
+	if i < j {
+		return s[i:j]
+	} else {
+		return ""
+	}
 }
 
 func main() {
 	var r = bufio.NewReader(os.Stdin)
 	for i := 1; ; i++ {
-		t := New()
 		var decodable = true
+		var t = &Tree{}
 		for {
-			s, _ := r.ReadString('\n')
-			if s == "" {
+			s, err := r.ReadString('\n')
+			if err != nil {
 				return
+			}
+			s = trimSpace(s)
+			if len(s) == 0 {
+				continue
 			}
 			if s[0] == '9' {
 				break
 			}
-			if decodable {
-				decodable = t.InsertNoPrefix(s)
+			if !decodable {
+				continue
 			}
+			decodable = t.InsertNoPrefix(s)
 		}
 		if decodable {
 			fmt.Printf("Set %d is immediately decodable\n", i)
