@@ -1,46 +1,51 @@
 package permute
 
-func qsort(array []int, beg, end int) {
-	if beg >= end {
-		return
+func swap(array []int, i, j int) {
+	array[i], array[j] = array[j], array[i]
+}
+
+func reverse(array []int, beg, end int) {
+	for i, j := beg, end; i < j; i, j = i+1, j-1 {
+		swap(array, i, j)
 	}
-	pivot := beg
-	for i := beg + 1; i <= end; i++ {
-		if array[i] <= array[beg] {
-			pivot++
-			xswap(array, i, pivot)
+}
+
+func NextRange(array []int, beg, end int) bool {
+	var i = end - 1
+	for i >= beg && array[i] >= array[i+1] {
+		i--
+	}
+	if i >= beg {
+		var j = end
+		for array[i] >= array[j] {
+			j--
 		}
+		swap(array, i, j)
 	}
-	xswap(array, pivot, beg)
-	qsort(array, beg, pivot-1)
-	qsort(array, pivot+1, end)
-}
-
-func xswap(array []int, i, j int) {
-	if i != j {
-		array[i], array[j] = array[j], array[i]
-	}
-}
-
-func Sort(array []int) {
-	qsort(array, 0, len(array)-1)
+	reverse(array, i+1, end)
+	return i >= beg
 }
 
 func Next(array []int) bool {
-	var part = len(array) - 2
-	for part >= 0 && array[part] >= array[part+1] {
-		part--
+	return NextRange(array, 0, len(array)-1)
+}
+
+func PrevRange(array []int, beg, end int) bool {
+	var i = end - 1
+	for i >= beg && array[i] <= array[i+1] {
+		i--
 	}
-	if part < 0 {
-		return false
+	if i >= beg {
+		var j = end
+		for array[i] <= array[j] {
+			j--
+		}
+		swap(array, i, j)
 	}
-	var xchg = len(array) - 1
-	for array[xchg] <= array[part] {
-		xchg--
-	}
-	xswap(array, xchg, part)
-	for i, j := part+1, len(array)-1; i < j; i, j = i+1, j-1 {
-		xswap(array, i, j)
-	}
-	return true
+	reverse(array, i+1, end)
+	return i >= beg
+}
+
+func Prev(array []int) bool {
+	return PrevRange(array, 0, len(array)-1)
 }

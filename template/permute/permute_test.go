@@ -1,7 +1,6 @@
 package permute_test
 
 import (
-	"math/rand"
 	"testing"
 
 	"github.com/spinlock/go-libs/assert"
@@ -24,38 +23,29 @@ func intsToBytes(is []int) []byte {
 	return bs
 }
 
-func TestPermute1(x *testing.T) {
-	var ss = bytesToInts([]byte("abcdefgh"))
-	for k := 0; k < len(ss)*len(ss); k++ {
-		i := rand.Int31n(int32(len(ss)))
-		j := rand.Int31n(int32(len(ss)))
-		ss[i], ss[j] = ss[j], ss[i]
-	}
-	Sort(ss)
+func test(s string, n int, f func(array []int) bool) {
+	var ss = bytesToInts([]byte(s))
 	mark := make(map[string]bool)
 	for {
 		mark[string(intsToBytes(ss))] = true
-		if !Next(ss) {
+		if !f(ss) {
 			break
 		}
 	}
-	assert.Must(len(mark) == 40320)
+	assert.Must(len(mark) == n)
+	assert.Must(s == string(intsToBytes(ss)))
+}
+
+func TestPermute1(x *testing.T) {
+	test("a", 1, Next)
+	test("a", 1, Prev)
+	test("abcdefgh", 40320, Next)
+	test("hgfedcba", 40320, Prev)
 }
 
 func TestPermute2(x *testing.T) {
-	var ss = bytesToInts([]byte("abcdabcdabcd"))
-	for k := 0; k < len(ss)*len(ss); k++ {
-		i := rand.Int31n(int32(len(ss)))
-		j := rand.Int31n(int32(len(ss)))
-		ss[i], ss[j] = ss[j], ss[i]
-	}
-	Sort(ss)
-	mark := make(map[string]bool)
-	for {
-		mark[string(intsToBytes(ss))] = true
-		if !Next(ss) {
-			break
-		}
-	}
-	assert.Must(len(mark) == 369600)
+	test("aaa", 1, Next)
+	test("aaa", 1, Prev)
+	test("aaabbbcccddd", 369600, Next)
+	test("dddcccbbbaaa", 369600, Prev)
 }
