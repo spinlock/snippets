@@ -1,7 +1,9 @@
 1041: dfs
 1056: trie
 1094: toposort
+1163: dp
 1182: ufs
+1251: prim
 1611: ufs
 1703: ufs
 2049: bfs
