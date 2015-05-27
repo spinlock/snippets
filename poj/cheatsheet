@@ -1,5 +1,6 @@
 1041: dfs
 1056: trie
+1094: toposort
 1182: ufs
 1611: ufs
 1703: ufs
