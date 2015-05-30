@@ -12,6 +12,7 @@
 1611: ufs
 1679: prim
 1703: ufs
+1751: kruskal
 2049: bfs
 2418: trie
 2442: heap
