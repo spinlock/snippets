@@ -16,6 +16,7 @@
 1847: dijstra
 2049: bfs
 2377: kruskal
+2395: kruskal
 2418: trie
 2442: heap
 3264: intree
