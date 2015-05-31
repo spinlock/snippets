@@ -18,6 +18,7 @@
 2377: kruskal
 2395: kruskal
 2418: trie
+2421: prim
 2442: heap
 3264: intree
 3468: intree
