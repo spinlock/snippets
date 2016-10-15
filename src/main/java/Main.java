@@ -109,7 +109,7 @@ public class Main {
                     counts.put(id, new Pair(id, n));
                 }
             }
-            ArrayList<Pair> pairs = new ArrayList<>(counts.values());
+            List<Pair> pairs = new ArrayList<>(counts.values());
             Collections.sort(pairs, new Comparator<Pair>() {
                 public int compare(Pair o1, Pair o2) {
                     if (o1.count > o2.count) {
