@@ -2,14 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c4cddc98-f693-4ded-95ff-af3c1d1a5d2d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/template/Strings.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/template/StringsTest.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/template/strings/Makefile" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/template/strings/strings.go" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/template/strings/strings_test.go" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/template/PriorityQueue.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/template/TreeVisit.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/template/Ufs.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/template/PriorityQueueTest.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/template/container/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/template/container/queue.go" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/template/container/queue_test.go" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/template/container/sample/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/template/container/sample/convert_test.go" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/template/container/sample/hanoi_test.go" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/template/container/stack.go" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/template/container/stack_test.go" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/template/heap/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/template/heap/heap.go" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/template/heap/heap_test.go" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/template/ufs/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/template/ufs/ufs.go" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Main.java" afterPath="$PROJECT_DIR$/src/main/java/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/template/Strings.java" afterPath="$PROJECT_DIR$/src/main/java/template/Strings.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/template/StringsTest.java" afterPath="$PROJECT_DIR$/src/test/java/template/StringsTest.java" />
     </list>
     <ignored path="snippets.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,28 +47,68 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="117" column="45" selection-start-line="117" selection-start-column="45" selection-end-line="117" selection-end-column="45" />
+            <state relative-caret-position="289">
+              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Strings.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/template/Strings.java">
+      <file leaf-file-name="IntervalTree.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/template/IntervalTree.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="92" column="33" selection-start-line="92" selection-start-column="33" selection-end-line="92" selection-end-column="33" />
+            <state relative-caret-position="253">
+              <caret line="26" column="15" selection-start-line="26" selection-start-column="15" selection-end-line="26" selection-end-column="15" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StringsTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/template/StringsTest.java">
+      <file leaf-file-name="BufferedInputStream.java" pinned="false" current-in-tab="false">
+        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/src.zip!/java/io/BufferedInputStream.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="71" column="48" selection-start-line="71" selection-start-column="48" selection-end-line="71" selection-end-column="48" />
+            <state relative-caret-position="450">
+              <caret line="178" column="5" selection-start-line="178" selection-start-column="5" selection-end-line="178" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TreeVisit.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/template/TreeVisit.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="969">
+              <caret line="57" column="15" selection-start-line="57" selection-start-column="15" selection-end-line="57" selection-end-column="15" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PriorityQueue.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/template/PriorityQueue.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="117">
+              <caret line="68" column="22" selection-start-line="68" selection-start-column="22" selection-end-line="68" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PriorityQueueTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/template/PriorityQueueTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="476">
+              <caret line="35" column="12" selection-start-line="35" selection-start-column="12" selection-end-line="35" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Ufs.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/template/Ufs.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="595">
+              <caret line="35" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -76,8 +129,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="JUnit4 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -106,9 +159,18 @@
         <option value="$PROJECT_DIR$/src/test/java/template/LinkedListTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/template/LRULinkedList.java" />
         <option value="$PROJECT_DIR$/src/main/java/template/LinkedList.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Main.java" />
-        <option value="$PROJECT_DIR$/src/test/java/template/StringsTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/template/TreeVisit.java" />
+        <option value="$PROJECT_DIR$/src/main/java/template/Heap.java" />
         <option value="$PROJECT_DIR$/src/main/java/template/Strings.java" />
+        <option value="$PROJECT_DIR$/src/test/java/template/StringsTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/template/PriorityQueue.java" />
+        <option value="$PROJECT_DIR$/src/test/java/template/PriorityQueueTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/template/UnionFindSEt.java" />
+        <option value="$PROJECT_DIR$/src/main/java/template/UnionFindSet.java" />
+        <option value="$PROJECT_DIR$/src/main/java/template/Ufs.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/template/IntervalTreee.java" />
+        <option value="$PROJECT_DIR$/src/main/java/template/IntervalTree.java" />
       </list>
     </option>
   </component>
@@ -294,20 +356,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Main.java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="snippets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="snippets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="template" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
             </PATH_ELEMENT>
@@ -345,7 +393,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.RunAllTests">
+  <component name="RunManager" selected="Application.Main">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
@@ -707,40 +755,40 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="RunAllTests - 2016.10.16 at 18h 02m 40s.xml">
+    <history-entry file="RunAllTests - 2016.10.16 at 22h 52m 07s.xml">
       <configuration name="RunAllTests" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RunAllTests - 2016.10.16 at 18h 07m 08s.xml">
+    <history-entry file="RunAllTests - 2016.10.16 at 22h 54m 06s.xml">
       <configuration name="RunAllTests" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RunAllTests - 2016.10.16 at 18h 19m 46s.xml">
+    <history-entry file="RunAllTests - 2016.10.16 at 22h 54m 13s.xml">
       <configuration name="RunAllTests" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RunAllTests - 2016.10.16 at 18h 22m 30s.xml">
+    <history-entry file="RunAllTests - 2016.10.16 at 22h 54m 37s.xml">
       <configuration name="RunAllTests" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RunAllTests - 2016.10.16 at 18h 22m 56s.xml">
+    <history-entry file="RunAllTests - 2016.10.16 at 22h 57m 55s.xml">
       <configuration name="RunAllTests" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RunAllTests - 2016.10.16 at 18h 23m 04s.xml">
+    <history-entry file="RunAllTests - 2016.10.16 at 23h 10m 49s.xml">
       <configuration name="RunAllTests" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RunAllTests - 2016.10.16 at 18h 27m 03s.xml">
+    <history-entry file="RunAllTests - 2016.10.16 at 23h 17m 07s.xml">
       <configuration name="RunAllTests" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RunAllTests - 2016.10.16 at 18h 29m 54s.xml">
+    <history-entry file="RunAllTests - 2016.10.16 at 23h 17m 14s.xml">
       <configuration name="RunAllTests" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RunAllTests - 2016.10.16 at 18h 33m 29s.xml">
+    <history-entry file="RunAllTests - 2016.10.16 at 23h 17m 27s.xml">
       <configuration name="RunAllTests" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RunAllTests - 2016.10.16 at 18h 40m 14s.xml">
+    <history-entry file="RunAllTests - 2016.10.16 at 23h 35m 05s.xml">
       <configuration name="RunAllTests" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="20" y="43" width="1400" height="833" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -758,7 +806,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2496318" sideWeight="0.5048951" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2496318" sideWeight="0.5048951" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -780,7 +828,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="antWorkspaceConfiguration">
@@ -892,26 +942,98 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/src.zip!/java/util/List.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="117" column="45" selection-start-line="117" selection-start-column="45" selection-end-line="117" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/template/StringsTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="71" column="48" selection-start-line="71" selection-start-column="48" selection-end-line="71" selection-end-column="48" />
+        <state relative-caret-position="229">
+          <caret line="237" column="12" selection-start-line="237" selection-start-column="12" selection-end-line="237" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/template/Strings.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="92" column="33" selection-start-line="92" selection-start-column="33" selection-end-line="92" selection-end-column="33" />
+        <state relative-caret-position="85">
+          <caret line="60" column="8" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/src.zip!/java/util/Comparator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="108" column="17" selection-start-line="108" selection-start-column="17" selection-end-line="108" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/template/StringsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/src.zip!/java/util/ArrayList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="443" column="0" selection-start-line="443" selection-start-column="0" selection-end-line="443" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/template/PriorityQueue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="68" column="22" selection-start-line="68" selection-start-column="22" selection-end-line="68" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/template/PriorityQueueTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="35" column="12" selection-start-line="35" selection-start-column="12" selection-end-line="35" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/template/TreeVisit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="969">
+          <caret line="57" column="15" selection-start-line="57" selection-start-column="15" selection-end-line="57" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/template/Ufs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/src.zip!/java/io/BufferedInputStream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="178" column="5" selection-start-line="178" selection-start-column="5" selection-end-line="178" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/template/IntervalTree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="26" column="15" selection-start-line="26" selection-start-column="15" selection-end-line="26" selection-end-column="15" />
           <folding />
         </state>
       </provider>

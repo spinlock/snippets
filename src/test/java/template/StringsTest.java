@@ -1,6 +1,5 @@
 package template;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,6 +7,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class StringsTest {
 
@@ -32,7 +34,7 @@ public class StringsTest {
         tests.put("-2147483649", Integer.MIN_VALUE);
 
         tests.forEach((key, value) -> {
-            Assert.assertTrue(Strings.atoi(key) == value);
+            assertTrue(Strings.atoi(key) == value);
         });
     }
 
@@ -75,15 +77,23 @@ public class StringsTest {
     @Test
     public void testStrStr() {
         strstrTests.forEach((t) -> {
-            Assert.assertTrue(Strings.strstr(t.s, t.needle) == t.expect);
+            assertTrue(Strings.strstr(t.s, t.needle) == t.expect);
         });
     }
 
     @Test
     public void testKmpStr() {
         strstrTests.forEach((t) -> {
-            Assert.assertTrue(Strings.kmpstr(t.s, t.needle) == t.expect);
+            assertTrue(Strings.kmpstr(t.s, t.needle) == t.expect);
         });
+    }
+
+    @Test
+    public void testBase2() {
+        for (int i = 0; i < 30; i++) {
+            int value = (1 << i) >> 1;
+            assertEquals(Strings.convertBase(value, 16), String.format("%x", value));
+        }
     }
 
 }

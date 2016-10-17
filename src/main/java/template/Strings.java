@@ -107,7 +107,7 @@ public class Strings {
         if (len1 < len2) {
             return -1;
         }
-        int[] prefix = kmpdfa(needle);
+        int[] suffix = kmpdfa(needle);
         int i = 0, j = 0;
         while (true) {
             if (j == len2) {
@@ -122,9 +122,29 @@ public class Strings {
             } else if (j == 0) {
                 i++;
             } else {
-                j = prefix[j];
+                j = suffix[j];
             }
         }
+    }
+
+
+    public static String convertBase(int value, int base) {
+        final String code = "0123456789abcdef";
+        char[] buff = new char[64];
+        int len = 0;
+        while (value != 0) {
+            buff[len++] = code.charAt(value % base);
+            value /= base;
+        }
+        if (len == 0) {
+            buff[len++] = '0';
+        }
+        for (int i = 0, j = len - 1; i < j; i++, j--) {
+            char c = buff[i];
+            buff[i] = buff[j];
+            buff[j] = c;
+        }
+        return new String(buff, 0, len);
     }
 
 }
