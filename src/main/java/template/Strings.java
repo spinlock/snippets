@@ -1,5 +1,9 @@
 package template;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 public class Strings {
 
     private static int strlen(String s) {
@@ -85,7 +89,8 @@ public class Strings {
         }
     }
 
-    private static int[] kmpdfa(String needle) {
+    // suffix[i] = the length of the longest prefix of needle[0...i-1]
+    private static int[] kmpdfa1(String needle) {
         int len = needle.length();
         int[] suffix = new int[len];
         for (int i = 2; i < len; i++) {
@@ -101,13 +106,13 @@ public class Strings {
         return suffix;
     }
 
-    public static int kmpstr(String s, String needle) {
+    public static int kmpstr1(String s, String needle) {
         int len1 = strlen(s);
         int len2 = strlen(needle);
         if (len1 < len2) {
             return -1;
         }
-        int[] suffix = kmpdfa(needle);
+        int[] suffix = kmpdfa1(needle);
         int i = 0, j = 0;
         while (true) {
             if (j == len2) {
@@ -127,7 +132,6 @@ public class Strings {
         }
     }
 
-
     public static String convertBase(int value, int base) {
         final String code = "0123456789abcdef";
         char[] buff = new char[64];
@@ -145,6 +149,77 @@ public class Strings {
             buff[j] = c;
         }
         return new String(buff, 0, len);
+    }
+
+    // prefix[i] = the length of the longest prefix of needle[0...i]
+    public static int[] kmpdfa2(String needle) {
+        int n = needle.length();
+        int[] prefix = new int[n];
+        for (int i = 1; i < n; i++) {
+            char c = needle.charAt(i);
+            int l = prefix[i - 1];
+            while (l != 0 && needle.charAt(l) != c) {
+                l = prefix[l - 1];
+            }
+            if (needle.charAt(l) == c) {
+                prefix[i] = l + 1;
+            }
+        }
+        return prefix;
+    }
+
+    public static int kmpstr2(String s, String needle) {
+        int len1 = strlen(s);
+        int len2 = strlen(needle);
+        if (len1 < len2) {
+            return -1;
+        }
+        int[] prefix = kmpdfa2(needle);
+        int i = 0, j = 0;
+        while (true) {
+            if (j == len2) {
+                return i - j;
+            }
+            if (i == len1) {
+                return -1;
+            }
+            if (s.charAt(i) == needle.charAt(j)) {
+                i++;
+                j++;
+            } else if (j == 0) {
+                i++;
+            } else {
+                j = prefix[j - 1];
+            }
+        }
+    }
+
+    public static List<Integer> kmpstr2All(String s, String needle) {
+        int len1 = strlen(s);
+        int len2 = strlen(needle);
+        if (len1 < len2 || len2 == 0) {
+            return Arrays.asList();
+        }
+        List<Integer> list = new LinkedList<>();
+        int[] prefix = kmpdfa2(needle);
+        int i = 0, j = 0;
+        while (true) {
+            if (j == len2) {
+                list.add(i - j);
+                j = prefix[j - 1];
+            }
+            if (i == len1) {
+                return list;
+            }
+            if (s.charAt(i) == needle.charAt(j)) {
+                i++;
+                j++;
+            } else if (j == 0) {
+                i++;
+            } else {
+                j = prefix[j - 1];
+            }
+        }
     }
 
 }

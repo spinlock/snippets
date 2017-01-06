@@ -82,9 +82,36 @@ public class StringsTest {
     }
 
     @Test
+    public void testStrStrAll() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 100; i++) {
+            sb.append("a");
+        }
+        String s = sb.toString();
+        List<Integer> expect = new LinkedList<>();
+        int index = 0;
+        while (true) {
+            int p = s.indexOf("aa", index);
+            if (p < 0) {
+                break;
+            }
+            expect.add(p);
+            index = p + 1;
+        }
+        List<Integer> list = Strings.kmpstr2All(s, "aa");
+        assertTrue(expect.size() == list.size());
+        for (int i = 0; i < list.size(); i++) {
+            assertTrue(list.get(i) == expect.get(i));
+        }
+    }
+
+    @Test
     public void testKmpStr() {
         strstrTests.forEach((t) -> {
-            assertTrue(Strings.kmpstr(t.s, t.needle) == t.expect);
+            assertTrue(Strings.kmpstr1(t.s, t.needle) == t.expect);
+        });
+        strstrTests.forEach((t) -> {
+            assertTrue(Strings.kmpstr2(t.s, t.needle) == t.expect);
         });
     }
 
